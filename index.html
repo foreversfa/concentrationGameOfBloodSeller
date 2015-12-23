@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Journey of a Blood Merchant</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="main.js"></script>
+    <script>
+    var pics = new Array();
+    for (i = 0; i <= 2; i++) {
+        pics[i] = new Image();
+        pics[i].src = 'image' + i + '.jpg';
+    }
+    var map = new Array(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6);
+
+    var textArr = new Array("", "You sell blood to prove you're strong. ᕙ(⇀‸↼‶)ᕗ ", "You sell blood to pay for bill. (´•ω•`)", "You sell blood to buy food. ( ´•︵•` )", "You sell blood because your family is sick.(๑°口°๑)", "You sell blood to bribe your boss. (╯°Д°)╯︵ ┻━┻", "Ah, you need to buy some blood. ( ´◔ ‸◔`) ");
+
+    var user = new Array();
+    var temparray = new Array();
+    var clickarray = new Array(0, 0);
+    //var ticker, sec, min, , id,
+    var ctr, oktoclick, finished;
+    var hp = 6;
+    var secret = "123456";
+    var gamepath 
+
+    function init() {
+        //clearTimeout(id);
+        for (i = 0; i <= 11; i++) {
+            user[i] = 0;
+        }
+        // ticker = 0;
+        // min = 0;
+        // sec = 0;
+        ctr = 0;
+        oktoclick = true;
+        finished = 0;
+        //document.f.b.value = "";
+        scramble();
+        gamepath = "";
+        $('.text').empty();
+        hp=6;
+        //runclk();
+        for (i = 0; i <= 11; i++) {
+            document.f[('img' + i)].src = "image0.jpg";
+        }
+        for (i = 0; i <= 6; i++) {
+            document.t[('hp' + i)].src = "hpfull.png";
+        }
+
+        $('.ending').empty();
+        $('.ending').hide();
+    }
+    // function runclk() {
+    // min = Math.floor(ticker/60);
+    // sec = (ticker-(min*60))+'';
+    // if(sec.length == 1) {sec = "0"+sec};
+    // ticker++;
+    // document.f.b.value = min+":"+sec;
+    // id = setTimeout('runclk()', 1000);
+    // }
+    function scramble() {
+        for (z = 0; z < 5; z++) {
+            for (x = 0; x <= 11; x++) {
+                temparray[0] = Math.floor(Math.random() * 12);
+                temparray[1] = map[temparray[0]];
+                temparray[2] = map[x];
+                map[x] = temparray[1];
+                map[temparray[0]] = temparray[2];
+            }
+        }
+    }
+
+    function showimage(but) {
+        if(user[but]==1){return;}
+        else if (oktoclick) {
+            oktoclick = false;
+            // document.f[('img' + but)].src = 'image' + map[but] + '.jpg';
+            var tochange = document.f[('img' + but)];
+            $(tochange).fadeOut(100, function() {
+                $(this).attr("src", 'image' + map[but] + '.jpg');
+                $('#turn').get(0).play();
+                $(this).load(function() {
+
+                    $(this).fadeIn(100);
+                });
+            })
+            if (ctr == 0) {
+
+                ctr++;
+                clickarray[0] = but;
+                oktoclick = true;
+            } else {
+                
+                clickarray[1] = but;
+                ctr = 0;
+                setTimeout('returntoold()', 800);
+            }
+        }
+    }
+
+    function returntoold() {
+        var tochange0 = document.f[('img' + clickarray[0])];
+        var tochange1 = document.f[('img' + clickarray[1])];
+
+        if ((clickarray[0] == clickarray[1]) && (!user[clickarray[0]])) {
+            // document.f[('img' + clickarray[0])].src = "image0.jpg";
+
+            $(tochange0).fadeOut(100, function() {
+                $(this).attr("src", 'image' + 0 + '.jpg');
+                $(this).load(function() {
+                    $(this).fadeIn(100);
+                });
+            })
+            oktoclick = true;
+        } else {
+            if (map[clickarray[0]] != map[clickarray[1]]) {
+
+                if (user[clickarray[0]] == 0) {
+                    // document.f[('img' + clickarray[0])].src = "image0.jpg";
+                    $(tochange0).fadeOut(100, function() {
+                        $(this).attr("src", 'image' + 0 + '.jpg');
+                        $(this).load(function() {
+                            $(this).fadeIn(100);
+                        });
+                    })
+                }
+                if (user[clickarray[1]] == 0) {
+                    // document.f[('img' + clickarray[1])].src = "image0.jpg";
+                    $(tochange1).fadeOut(100, function() {
+                        $(this).attr("src", 'image' + 0 + '.jpg');
+                        $(this).load(function() {
+                            $(this).fadeIn(100);
+                        });
+                    })
+                }
+
+                document.t[('hp' + hp)].src = "hpempty.png";
+                $('#drop').get(0).play();
+                hp--;
+                if (hp < 0) {
+                    end();
+                }
+            }
+            if (map[clickarray[0]] == map[clickarray[1]]) {
+                if (user[clickarray[0]] == 0 && user[clickarray[1]] == 0) {
+                    if(map[clickarray[0]]==6){
+
+                        hp++;
+                        //document.t[('hp' + hp)].onload = "(this).fadeIn()";
+                        document.t[('hp' + hp)].src = "hpfull.png";
+
+                        $('#fill').get(0).play();
+                        finished++;
+                        gamepath+=map[clickarray[0]];
+                         $('.text').append("<p>" + textArr[map[clickarray[0]]] + "</p>");
+                    }
+                    else{
+                        $('.text').append("<p>" + textArr[map[clickarray[0]]] + "</p>");
+                        finished++;
+                        $('#ding').get(0).play();
+
+                        gamepath+=map[clickarray[0]];
+                    }
+                }
+               
+                user[clickarray[0]] = 1;
+                user[clickarray[1]] = 1;
+            }
+            if (finished >= 6) {
+                //alert('You did it in '+document.f.b.value+' !');
+                //init();
+                end();
+            } else {
+                oktoclick = true;
+            }
+        }
+    }
+    //  End -->
+    </script>
+</head>
+
+<body>
+    <audio id="bgm" src="bgm.mp3" type="audio/mpeg" loop></audio>
+    <audio id="turn" src="turn.wav" type="audio/wav" ></audio>
+    <audio id="ding" src="ding.mp3" type="audio/mp3" ></audio>
+    <audio id="drop" src="drop.mp3" type="audio/mp3" ></audio>
+    <audio id="fill" src="fill.mp3" type="audio/mp3" ></audio>
+    <div class="heading">
+        <h1>The Chronicle of Why You Sell Your Blood</h1>
+    </div>
+    <input type="button" class="button" value="Start Your Journey" name="b" onClick="start()">
+    <input type="button" class="button new-btn" value="Start Over" name="b" onClick="start()">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7">
+                <form name="f" class="main">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <script language="javascript">
+                        for (r = 0; r <= 2; r++) {
+                            document.write('<tr>');
+                            for (c = 0; c <= 3; c++) {
+                                document.write('<td align="center">');
+                                document.write('<a href="javascript:showimage(' + ((4 * r) + c) + ')" >');
+                                document.write('<img src="image0.jpg" name="img' + ((4 * r) + c) + '" border="0">');
+                                document.write('</a></td>');
+                            }
+                            document.write('</tr>');
+                        }
+                        </script>
+                    </table>
+                    <br>
+                </form>
+            </div>
+            <div class="col-sm-offset-1 col-sm-4 side">
+                <form name='t'>
+                    <table cellpadding="0" cellspacing="0" border="0" class='healthpoint'>
+                        <script language="javascript">
+                        document.write('<tr>');
+                        for (c = 0; c <= 6; c++) {
+                            document.write('<td align="center">');
+
+                            document.write('<img src="/hpfull.png" name="hp' + c + '" border="0">');
+                            document.write('</td>');
+                        }
+                        document.write('</tr>');
+                        </script>
+                    </table>
+                </form>
+                <div class="text">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ending">
+    </div>
+
+</body>
+
+</html>

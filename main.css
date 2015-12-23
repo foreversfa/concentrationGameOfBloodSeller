@@ -1,0 +1,125 @@
+body{
+	text-align: center;
+  font-family:  "Myriad Pro", Myriad, "Liberation Sans", "Nimbus Sans L", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-image: url("background.jpg");
+  background-size: cover; 
+}
+
+.main img{
+	width:180px;
+  height:180px;
+  padding:10px;
+}
+
+.healthpoint img{
+  width:40px;
+  /*margin-left:2px;*/
+
+}
+
+.healthpoint {
+  margin-top:15px;
+}
+
+h1{
+  position: absolute;
+  left:23%;
+  top:30%;
+  text-align: center;
+}
+
+.container{
+  display:none;
+  padding-top:30px;
+}
+table {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.button {
+  position:absolute;
+  top:45%;
+  left:43%;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family:  "Myriad Pro", Myriad, "Liberation Sans", "Nimbus Sans L", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #ffffff;
+  font-size: 20px;
+  background: #bb7f65;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+
+  border:none !important;
+
+box-shadow:none !important;
+}
+
+.button:hover {
+  background: rgb(187, 127, 101);
+  opacity:0.8;
+  text-decoration: none;
+}
+
+.button:focus {outline:0;}
+
+.button:active{
+  vertical-align: top;
+  padding: 12px 20px 8px 20px;
+
+}
+
+.new-btn{
+  display:none;
+  position:absolute;
+  top:80%;
+  left:80%;
+}
+
+
+
+.text{
+	font-size: 20px;
+	padding:20px;
+}
+
+.ending{
+  display:none;
+  font-size: 20px;
+  padding-top:100px;
+  
+
+}
+
+.endingtext{
+  display: inline-block;
+  text-align: left;
+}
+
+.innertext{
+  display: inline-block;
+  text-align: left;
+}
+
+/*.ending p{
+  text-align: left;
+}*/
+
+.ending span{
+  color:#d31515;
+  font-size: 23px;
+}
+
+#secretending{
+  text-align: left;
+  padding-left:50px;
+}
+
+.secret{
+  font-size:17px;
+  font-family: "Courier New", Courier, monospace;
+  text-align: left;
+  padding-left:100px;
+  padding-right: 80px;
+}
